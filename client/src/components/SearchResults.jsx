@@ -28,10 +28,16 @@ const SearchResults = () => {
           console.log("Data fetched:", data);
           if (data && data.results) {
             setResults(data.results.slice(0, 4));
-            const categoryFilter = data.filters.find(
-              (f) => f.id === "category"
-            );
-            const locationFilter = data.available_filters.find(
+            const filters =
+              data.filters && Array.isArray(data.filters) ? data.filters : [];
+            const availableFilters =
+              data.available_filters && Array.isArray(data.available_filters)
+                ? data.available_filters
+                : [];
+
+            // Buscar el filtro de categoría y ubicación
+            const categoryFilter = filters.find((f) => f.id === "category");
+            const locationFilter = availableFilters.find(
               (f) => f.id === "state"
             );
 

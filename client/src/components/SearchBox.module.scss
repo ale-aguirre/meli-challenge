@@ -1,0 +1,47 @@
+@import '../styles.scss';
+
+.searchBarContainer {
+  display: flex;
+  align-items: center;
+  background-color: $color-primary;
+  padding: 16px;
+  overflow: hidden;
+}
+
+.logo {
+  width: 53px;
+  height: auto;
+  margin-right: 16px;
+}
+
+.searchBox {
+  display: flex;
+  position: relative;
+  flex-grow: 1;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.searchInput {
+  flex-grow: 1;
+  font-size: 18px;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 40px 8px 16px;
+}
+
+.searchButton {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.searchIcon {
+  width: 20px;
+  height: 20px;
+}

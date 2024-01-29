@@ -17,17 +17,33 @@ const handleError = (res, error) => {
 };
 
 // Endpoint para buscar productos
+// En tu backend (Node.js con Express)
 app.get("/api/items", async (req, res) => {
   try {
-    const response = await fetch(
-      `https://api.mercadolibre.com/sites/MLA/search?q=${req.query.q}`
+    const searchResponse = await fetch(`https://api.mercadolibre.com/sites/MLA/search?q=${req.query.q}`);
+    const searchData = await searchResponse.json();
+
+    const itemsDetailsPromises = searchData.results.slice(0, 4).map(item => 
+      fetch(`https://api.mercadolibre.com/items/${item.id}`)
     );
-    const data = await response.json();
-    res.send(data);
+
+    const itemsDetailsResponses = await Promise.all(itemsDetailsPromises);
+    const itemsDetails = await Promise.all(itemsDetailsResponses.map(res => res.json()));
+
+    const resultsWithSellerAddress = searchData.results.slice(0, 4).map((item, index) => {
+      return {
+        ...item, 
+        seller_address: itemsDetails[index].seller_address
+      };
+    });
+
+    res.json({ results: resultsWithSellerAddress });
   } catch (error) {
-    handleError(res, error);
+    console.error('Error fetching items details:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
+
 
 // Endpoint para detalles del producto
 app.get("/api/items/:id", async (req, res) => {
