@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import styles from './SearchResults.module.scss';
 import Loader from '../Loader/Loader';
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { formatPriceARS } from '../../helpers/helpers';
+import { containerVariants, itemVariants } from '../../helpers/variants';
 
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
@@ -52,9 +54,14 @@ const SearchResults = () => {
 
   if (!searchQuery) {
     return (
-      <div className={styles.noSearch}>
+      <motion.div
+        className={styles.noSearch}
+        variants={containerVariants}
+        initial='hidden'
+        animate='visible'
+      >
         Realiza tu búsqueda de producto arriba
-      </div>
+      </motion.div>
     );
   }
 
@@ -79,35 +86,52 @@ const SearchResults = () => {
   }
 
   return (
-    <div className={styles.search_results_container}>
+    <motion.div
+      className={styles.search_results_container}
+      variants={containerVariants}
+      initial='hidden'
+      animate='visible'
+    >
       {categories && <Breadcrumb categories={categories} />}
 
-      <div className={styles.product_list}>
+      <motion.div
+        className={styles.product_list}
+        variants={containerVariants}
+        initial='hidden'
+        animate='visible'
+      >
         {results.map((result) => (
           <Link
             to={`/items/${result.id}`}
             key={result.id}
-            className={styles.product}
+            className={`${styles.product} product`}
           >
-            <img
+            <motion.img
               src={result.thumbnail}
               alt={result.title}
               className={styles.product_image}
+              variants={itemVariants}
             />
-            <div className={styles.product_details}>
+            <motion.div
+              className={styles.product_details}
+              variants={itemVariants}
+            >
               <span className={styles.product_price}>
                 {formatPriceARS(result.price)}
               </span>
               <p className={styles.product_title}>{result.title}</p>
-            </div>
+            </motion.div>
 
-            <div className={styles.product_location}>
+            <motion.div
+              className={styles.product_location}
+              variants={itemVariants}
+            >
               <span>{result.seller_address.state.name}</span>
-            </div>
+            </motion.div>
           </Link>
         ))}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
