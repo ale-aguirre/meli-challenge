@@ -1,19 +1,20 @@
 @import '../../styles.scss';
 
 .container {
+  width: 80%;
+  height: auto;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
   background-color: #eeeeee;
-  padding: 40px 225px;
 }
 
 .product {
   display: flex;
   flex-direction: row;
-  padding-top: 20px;
+  padding-top: 32px;
   background-color: #fff;
 }
 
@@ -28,13 +29,19 @@
 
 .product_desc {
   width: 100%;
-  padding: 30px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  padding-left: 32px;
+
+  & > span {
+    font-size: 28px;
+  }
+
   & > p {
-    font-size: 12px;
+    font-size: 16px;
     color: #999999;
+    padding: 32px 0px;
+    text-align: left;
   }
 }
 
@@ -43,15 +50,15 @@
   height: auto;
   display: flex;
   flex-direction: column;
-  gap: 30px;
 
-  & > h4 {
-    width: 100%;
-    font-size: 20px;
+  & > h2 {
+    width: 85%;
+    font-size: 24px;
   }
 
-  & > p {
-    font-size: 36px;
+  & > span {
+    font-size: 46px;
+    padding: 32px 0px;
   }
 
   & > button {
@@ -60,17 +67,39 @@
     background-color: #3483fa;
     color: #eeeeee;
     border-radius: 5px;
+    transition: background-color 0.3s ease;
   }
 }
 
+.product_secondSection > button:hover {
+  background-color: #2968c8;
+}
+
+.product_secondSection > button:active {
+  transform: translateY(2px);
+}
+
+.product_subtitle {
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
 .product_img {
-  width: 500px;
+  width: 100%;
   height: 100%;
   display: flex;
+  justify-content: center;
 
   & > img {
-    width: 100%;
+    width: 680px;
     height: auto;
     display: block;
   }
+}
+
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 7.7rem);
 }

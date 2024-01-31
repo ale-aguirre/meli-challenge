@@ -19,8 +19,6 @@ const SearchResults = () => {
   useEffect(() => {
     if (searchQuery) {
       setLoading(true);
-      console.log(`Fetching results for query: ${searchQuery}`);
-
       const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3003';
       fetch(`${apiUrl}/api/items?q=${searchQuery}`)
         .then((response) => {
@@ -35,10 +33,10 @@ const SearchResults = () => {
           if (data && data.results) {
             setResults(data.results.slice(0, 4));
             setCategories(data.categories);
-            console.log(
-              'Categorías recibidas en el componente:',
-              data.categories,
-            );
+            // console.log(
+            //   'Categorías recibidas en el componente:',
+            //   data.categories,
+            // );
           } else {
             setResults([]);
             setCategories([]);

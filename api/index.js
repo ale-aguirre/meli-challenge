@@ -1,3 +1,4 @@
+// Importa los módulos necesarios y configura el servidor Express
 import express from "express";
 import cors from "cors";
 import fetch from "node-fetch";
@@ -11,6 +12,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+// Función para manejar errores
 const handleError = (res, error) => {
   console.error(error);
   res.status(500).send({ error: "An error occurred" });
@@ -60,6 +62,7 @@ app.get("/api/items", async (req, res) => {
   }
 });
 
+// Endpoint para obtener detalles de un producto individual
 app.get("/api/items/:id", async (req, res) => {
   try {
     const [itemResponse, descriptionResponse, categoryResponse] =
@@ -69,7 +72,7 @@ app.get("/api/items/:id", async (req, res) => {
           `https://api.mercadolibre.com/items/${req.params.id}/description`
         ),
         fetch(
-          `https://api.mercadolibre.com/sites/MLA/search?category=${req.params.id}`
+          `https://api.mercadolibre.com/categories/${req.params.id}`
         ),
       ]);
 
@@ -97,9 +100,7 @@ app.get("/api/items/:id", async (req, res) => {
         free_shipping: itemData.shipping.free_shipping,
         sold_quantity: itemData.sold_quantity,
         description: descriptionData.plain_text,
-        categories: categoryData.filters
-          .map((filter) => filter.values.map((value) => value.name))
-          .flat(),
+        categories: categoryData.map((category) => category.name),
       },
     };
 
@@ -109,6 +110,7 @@ app.get("/api/items/:id", async (req, res) => {
   }
 });
 
+// Define el puerto y escucha las solicitudes
 const PORT = process.env.PORT || 3003;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

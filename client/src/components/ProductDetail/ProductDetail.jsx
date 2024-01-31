@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import styles from './ProductDetail.module.scss';
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import Loader from '../Loader/Loader';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import { formatPriceARS } from '../../helpers/helpers';
+import { fadeInUpVariant, scaleInVariant } from '../../helpers/variants';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -22,7 +24,6 @@ const ProductDetail = () => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-
         const data = await response.json();
         setProduct(data.item);
       } catch (error) {
@@ -36,12 +37,12 @@ const ProductDetail = () => {
     fetchData();
   }, [id]);
 
-  useEffect(() => {
-    console.log('Categorías del producto:', product?.categories);
-  }, [product]);
-
   if (loading) {
-    return <Loader />;
+    return (
+      <div className={styles.loaderContainer}>
+        <Loader />
+      </div>
+    );
   }
 
   if (error) {
@@ -57,18 +58,60 @@ const ProductDetail = () => {
       {product.categories && <Breadcrumb categories={product.categories} />}
       <div className={styles.product}>
         <div className={styles.product_firstSection}>
-          <div className={styles.product_img}>
+          <motion.div
+            className={styles.product_img}
+            variants={scaleInVariant}
+            initial='initial'
+            animate='animate'
+          >
             <img src={product.picture} alt={product.title} />
-          </div>
-          <div className={styles.product_desc}>
-            <h4>Descripción del producto:</h4>
+          </motion.div>
+          <motion.div
+            className={styles.product_desc}
+            variants={fadeInUpVariant}
+            initial='initial'
+            animate='animate'
+          >
+            <span>Descripción del producto:</span>
             <p>{product.description}</p>
-          </div>
+          </motion.div>
         </div>
         <div className={styles.product_secondSection}>
-          <h4>{product.title}</h4>
-          <p>{formatPriceARS(product.price.amount)}</p>
-          <button>Comprar</button>
+          <motion.div
+            className={styles.product_subtitle}
+            variants={fadeInUpVariant}
+            initial='initial'
+            animate='animate'
+            custom={0.3}
+          >
+            <span>{product.condition}</span>
+          </motion.div>
+          <motion.h2
+            variants={fadeInUpVariant}
+            initial='initial'
+            animate='animate'
+            custom={0.6}
+          >
+            {product.title}
+          </motion.h2>
+          <motion.span
+            variants={scaleInVariant}
+            initial='initial'
+            animate='animate'
+            custom={0.9}
+          >
+            {formatPriceARS(product.price.amount)}
+          </motion.span>
+          <motion.button
+            className={styles.product_button}
+            variants={fadeInUpVariant}
+            initial='initial'
+            animate='animate'
+            custom={1.2}
+            whileTap={{ scale: 0.95 }}
+          >
+            Comprar
+          </motion.button>
         </div>
       </div>
     </div>
