@@ -4,6 +4,7 @@ import styles from './SearchResults.module.scss';
 import Loader from '../Loader/Loader';
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import { formatPriceARS } from '../../helpers/helpers';
 
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
@@ -11,7 +12,6 @@ const SearchResults = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [categories, setCategories] = useState([]);
-  const [location, setLocation] = useState('');
   const searchQuery = searchParams.get('search');
 
   useEffect(() => {
@@ -95,12 +95,14 @@ const SearchResults = () => {
               className={styles.product_image}
             />
             <div className={styles.product_details}>
-              <span className={styles.product_price}>${result.price}</span>
+              <span className={styles.product_price}>
+                {formatPriceARS(result.price)}
+              </span>
               <p className={styles.product_title}>{result.title}</p>
             </div>
 
             <div className={styles.product_location}>
-              <span>Ubicación: {location || 'No disponible'}</span>
+              <span>{result.seller_address.state.name}</span>
             </div>
           </Link>
         ))}

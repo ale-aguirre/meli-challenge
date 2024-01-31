@@ -1,10 +1,16 @@
 import React from 'react';
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 import styles from './Footer.module.scss';
 
 const Footer = () => {
   return (
-    <footer className={styles.footer}>
+    <motion.footer
+      className={styles.footer}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <p>By Alexis Aguirre - </p>
       <div className={styles.iconContainer}>
         <a
@@ -22,7 +28,7 @@ const Footer = () => {
           <FaGithub className={styles.icon} />
         </a>
       </div>
-    </footer>
+    </motion.footer>
   );
 };
 

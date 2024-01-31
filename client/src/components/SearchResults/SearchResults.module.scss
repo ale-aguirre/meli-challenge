@@ -19,7 +19,7 @@
   display: flex;
   align-items: center;
   width: 78vw;
-  margin: 16px;
+  height: auto;
   cursor: pointer;
 }
 
@@ -27,17 +27,13 @@
   width: 180px;
   height: 180px;
   border-radius: 4px;
-  margin-right: 20px;
+  margin: 16px;
 }
 
 .product_details {
   display: flex;
   flex-direction: column;
   width: 40%;
-
-  & span {
-    font-weight: bold;
-  }
 }
 
 .product_title {
@@ -47,6 +43,7 @@
 
 .product_price {
   font-size: 24px;
+  padding-bottom: 32px;
 }
 
 .product_description {
@@ -55,6 +52,7 @@
 
 .product_location {
   margin-left: auto;
+  color: $color-border;
 }
 
 // mensaje inicial de hacer busqueda

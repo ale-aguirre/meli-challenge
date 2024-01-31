@@ -4,6 +4,7 @@ import styles from './ProductDetail.module.scss';
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import Loader from '../Loader/Loader';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import { formatPriceARS } from '../../helpers/helpers';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -66,7 +67,7 @@ const ProductDetail = () => {
         </div>
         <div className={styles.product_secondSection}>
           <h4>{product.title}</h4>
-          <p>${new Intl.NumberFormat().format(product.price.amount)}</p>
+          <p>{formatPriceARS(product.price.amount)}</p>
           <button>Comprar</button>
         </div>
       </div>
