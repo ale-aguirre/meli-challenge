@@ -67,6 +67,11 @@ app.get("/api/items", async (req, res) => {
   }
 });
 
+
+
+
+
+
 // endpoint para  detalles del producto
 app.get("/api/items/:id", async (req, res) => {
   try {
