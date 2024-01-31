@@ -4,7 +4,7 @@ import SearchBox from './components/Searchbox/SearchBox';
 import SearchResults from './components/SearchResults/SearchResults';
 import ProductDetail from './components/ProductDetail/ProductDetail';
 import Footer from './components/Footer/Footer';
-import styles from './App.css';
+import styles from './App.scss';
 
 function App() {
   return (

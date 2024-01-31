@@ -1,48 +1,59 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './ProductDetail.module.scss';
+import Breadcrumb from '../Breadcrumb/Breadcrumb';
+import Loader from '../Loader/Loader';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
 const ProductDetail = () => {
-  let { id } = useParams();
+  const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    setLoading(true);
-    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3003';
-    fetch(`${apiUrl}/api/items/${id}`)
-      .then((response) => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3003';
+        const response = await fetch(`${apiUrl}/api/items/${id}`);
+
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        return response.json();
-      })
-      .then((data) => {
-        setLoading(false);
+
+        const data = await response.json();
         setProduct(data.item);
-      })
-      .catch((error) => {
-        setLoading(false);
+      } catch (error) {
         console.error('Error fetching product details:', error);
         setError('No se pudo cargar la información del producto');
-      });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [id]);
 
+  useEffect(() => {
+    console.log('Categorías del producto:', product?.categories);
+  }, [product]);
+
   if (loading) {
-    return <div>Cargando detalles del producto...</div>;
+    return <Loader />;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <ErrorBoundary message={error} />;
   }
 
   if (!product) {
-    return <div>Producto no encontrado</div>;
+    return <ErrorBoundary message='Producto no encontrado' />;
   }
 
   return (
     <div className={styles.container}>
+      {product.categories && <Breadcrumb categories={product.categories} />}
       <div className={styles.product}>
         <div className={styles.product_firstSection}>
           <div className={styles.product_img}>
@@ -59,7 +70,6 @@ const ProductDetail = () => {
           <button>Comprar</button>
         </div>
       </div>
-      {/* Añadir aquí más detalles del producto según sea necesario */}
     </div>
   );
 };

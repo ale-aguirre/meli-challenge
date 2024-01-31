@@ -1,0 +1,12 @@
+.errorBoundary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.errorBoundary p {
+  font-size: 18px;
+  color: red;
+  text-align: center;
+}

@@ -9,12 +9,6 @@
   flex-direction: column;
 }
 
-.categories {
-  font-size: 14px;
-  color: #999999;
-  margin: 16px 0;
-}
-
 .product_list {
   display: flex;
   flex-direction: column;
@@ -24,7 +18,7 @@
 .product {
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 78vw;
   margin: 16px;
   cursor: pointer;
 }
@@ -39,6 +33,11 @@
 .product_details {
   display: flex;
   flex-direction: column;
+  width: 40%;
+
+  & span {
+    font-weight: bold;
+  }
 }
 
 .product_title {
@@ -58,6 +57,7 @@
   margin-left: auto;
 }
 
+// mensaje inicial de hacer busqueda
 .noSearch {
   font-size: 26px;
   display: flex;

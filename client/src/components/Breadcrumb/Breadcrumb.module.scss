@@ -1,8 +1,29 @@
+@import '../../styles.scss';
+
+.root {
+  font-size: 14px;
+  color: $color-border;
+  margin: 16px 0;
+}
+
 .breadcrumb {
+  display: flex;
   list-style: none;
   width: 60vw;
   min-width: 460px;
   max-width: 780px;
   margin: 20px auto 0 auto;
   padding: 0;
+}
+
+.breadcrumbItem {
+  margin-right: 8px;
+}
+
+.breadcrumbItem:last-child {
+  font-weight: bold;
+}
+
+.separator {
+  color: $color-border;
 }

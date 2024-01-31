@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import styles from './SearchResults.module.scss';
 import Loader from '../Loader/Loader';
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
@@ -31,40 +32,14 @@ const SearchResults = () => {
           console.log('Data fetched:', data);
           if (data && data.results) {
             setResults(data.results.slice(0, 4));
-            setCategories(data.categories); // Establecer las categorías obtenidas del servidor
+            setCategories(data.categories);
             console.log(
               'Categorías recibidas en el componente:',
               data.categories,
             );
-            const filters =
-              data.filters && Array.isArray(data.filters) ? data.filters : [];
-            const availableFilters =
-              data.available_filters && Array.isArray(data.available_filters)
-                ? data.available_filters
-                : [];
-
-            // Buscar el filtro de categoría y ubicación
-            const categoryFilter = filters.find((f) => f.id === 'category');
-            const locationFilter = availableFilters.find(
-              (f) => f.id === 'state',
-            );
-
-            if (categoryFilter && categoryFilter.values.length > 0) {
-              const categoryNames = categoryFilter.values[0].path_from_root.map(
-                (c) => c.name,
-              );
-              setCategories(categoryNames.join(' > '));
-            } else {
-              setCategories([]);
-            }
-
-            if (locationFilter && locationFilter.values.length > 0) {
-              setLocation(locationFilter.values[0].name);
-            } else {
-              setLocation('');
-            }
           } else {
             setResults([]);
+            setCategories([]);
           }
         })
         .catch((error) => {
@@ -92,20 +67,20 @@ const SearchResults = () => {
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <ErrorBoundary message={error} />;
   }
 
   if (!results.length && !loading) {
-    return <div>No se encontraron resultados para "{searchQuery}"</div>;
+    return (
+      <ErrorBoundary
+        message={`No se encontraron resultados para ${searchQuery}`}
+      />
+    );
   }
 
   return (
     <div className={styles.search_results_container}>
-      {categories && (
-        <div className={styles.categories}>
-          <Breadcrumb categories={categories} />
-        </div>
-      )}
+      {categories && <Breadcrumb categories={categories} />}
 
       <div className={styles.product_list}>
         {results.map((result) => (
