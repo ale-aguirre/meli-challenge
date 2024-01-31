@@ -25,8 +25,6 @@ const ProductDetail = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        console.log('data', data)
-        console.log('response', response)
         setProduct(data.item);
       } catch (error) {
         console.error('Error fetching product details:', error);
@@ -86,7 +84,9 @@ const ProductDetail = () => {
             animate='animate'
             custom={0.3}
           >
-            <span>{product.condition}</span>
+            <span>
+              {product.condition === 'new' ? <p>Nuevo</p> : <p>Usado</p>}
+            </span>
           </motion.div>
           <motion.h2
             variants={fadeInUpVariant}

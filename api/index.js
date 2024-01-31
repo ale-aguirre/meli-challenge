@@ -24,7 +24,7 @@ app.get("/api/items", async (req, res) => {
     );
     const searchData = await searchResponse.json();
 
-    // obtener categorías
+    // obtener categorias
     let categories = [];
     const availableFilters = searchData.available_filters;
     const filters = searchData.filters;
@@ -67,31 +67,22 @@ app.get("/api/items", async (req, res) => {
   }
 });
 
-
-
-
-
-
 // endpoint para  detalles del producto
 app.get("/api/items/:id", async (req, res) => {
   try {
-    const [itemResponse, descriptionResponse, categoryResponse] =
-      await Promise.all([
-        fetch(`https://api.mercadolibre.com/items/${req.params.id}`),
-        fetch(
-          `https://api.mercadolibre.com/items/${req.params.id}/description`
-        ),
-        fetch(
-          `https://api.mercadolibre.com/sites/MLA/search?category=${req.params.id}`
-        ),
-      ]);
+    const id = req.params.id;
 
-    const [itemData, descriptionData, categoryData] = await Promise.all([
+    const itemResponse = await fetch(
+      `https://api.mercadolibre.com/items/${id}`
+    );
+    const descriptionResponse = await fetch(
+      `https://api.mercadolibre.com/items/${id}/description`
+    );
+
+    const [itemData, descriptionData] = await Promise.all([
       itemResponse.json(),
       descriptionResponse.json(),
-      categoryResponse.json(),
     ]);
-    console.log("Category Data:", categoryData);
 
     const result = {
       author: {
@@ -111,15 +102,13 @@ app.get("/api/items/:id", async (req, res) => {
         free_shipping: itemData.shipping.free_shipping,
         sold_quantity: itemData.sold_quantity,
         description: descriptionData.plain_text,
-        categories: categoryData.filters
-          .map((filter) => filter.values.map((value) => value.name))
-          .flat(),
       },
     };
 
-    res.send(result);
+    res.json(result);
   } catch (error) {
-    handleError(res, error);
+    console.error("Error al obtener los detalles del producto:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
   }
 });
 
