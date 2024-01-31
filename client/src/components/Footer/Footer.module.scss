@@ -1,0 +1,31 @@
+@import '../../styles.scss';
+
+.footer {
+  background-color: $color-gray-background;
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.iconContainer {
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+  gap: 5px;
+  & a {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.icon {
+  font-size: 24px;
+  color: #333;
+}
+
+.icon:hover {
+  color: #007bff;
+}

@@ -2,6 +2,7 @@ $color-primary: #ffe600;
 $color-text: #333333;
 $color-subtitle: #666666;
 $color-border: #999999;
+$color-gray-background: #c4c0c0ce;
 $color-background: #eeeeee;
 $color-button: #3483fa;
 
@@ -42,7 +43,9 @@ img {
 
 /* Set core body defaults */
 body {
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   scroll-behavior: smooth;
   scroll-snap-type: y proximity;
   scroll-snap-align: start;
