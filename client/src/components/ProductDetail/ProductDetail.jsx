@@ -55,7 +55,7 @@ const ProductDetail = () => {
 
   return (
     <div className={styles.container}>
-      {product.categories && <Breadcrumb categories={product.categories} />}
+      <Breadcrumb categories={product.categories} />
       <div className={styles.product}>
         <div className={styles.product_firstSection}>
           <motion.div

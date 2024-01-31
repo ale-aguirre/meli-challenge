@@ -33,10 +33,6 @@ const SearchResults = () => {
           if (data && data.results) {
             setResults(data.results.slice(0, 4));
             setCategories(data.categories);
-            // console.log(
-            //   'Categorías recibidas en el componente:',
-            //   data.categories,
-            // );
           } else {
             setResults([]);
             setCategories([]);
