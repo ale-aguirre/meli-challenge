@@ -11,10 +11,11 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-const handleError = (res, error) => {
-  console.error(error);
-  res.status(500).send({ error: "An error occurred" });
-};
+app.use(
+  express.static("public", {
+    maxAge: "1d",
+  })
+);
 
 // endpoint para obtener productos
 app.get("/api/items", async (req, res) => {
