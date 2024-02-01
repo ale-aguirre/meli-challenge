@@ -29,7 +29,6 @@ const SearchResults = () => {
         })
         .then((data) => {
           setLoading(false);
-          console.log('Data fetched:', data);
           if (data && data.results) {
             setResults(data.results.slice(0, 4));
             setCategories(data.categories);
@@ -40,7 +39,6 @@ const SearchResults = () => {
         })
         .catch((error) => {
           setLoading(false);
-          console.error('Error fetching data:', error);
           setError('Hubo un error al buscar los resultados');
         });
     }
